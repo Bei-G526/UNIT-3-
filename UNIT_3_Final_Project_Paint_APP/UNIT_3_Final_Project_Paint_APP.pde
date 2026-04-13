@@ -12,7 +12,11 @@ color SelectedColor;
 float sliderY;
 float thickness; 
 
+// Stamp 
+PImage lazyegg;
+
 void setup() {
+ 
   size(800,600);
   strokeWeight(3);
   stroke(black); 
@@ -20,11 +24,21 @@ void setup() {
   SelectedColor = red; 
   sliderY=55;
   thickness = 0; 
+  //stamp
+  lazyegg = loadImage( "lazy-egg.png");
 }
 
 void draw() {  
-  background(white);
+  fill(255);
+  noStroke();
+  rect(0,0,800,600);
   strokeWeight(2);
+  
+  //if (mouseY<130) {
+  //background(white);
+  //}
+  //strokeWeight(2);
+  stroke(0);
   line(0,120,800,120);
   
   // buttons 
@@ -73,6 +87,8 @@ void draw() {
   fill(SelectedColor);
   rect(230,25,30,70); 
   
+   // stamp
+  image(lazyegg, 360,-45,200,200);
   
 } // End of draw ===============
 
@@ -88,9 +104,11 @@ void tactile (int x, int y, int r) {
 void mouseDragged () {
   controlSlider();
   
-  
   // drawing lines
+ if (mouseY>125){ //control the space to draw
   line(pmouseX,pmouseY,mouseX,mouseY);
+  
+  }
 }
 
 void mouseReleased() { 
