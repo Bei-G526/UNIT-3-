@@ -14,33 +14,31 @@ float thickness;
 
 // Stamp 
 PImage lazyegg;
+boolean lazyeggOn; // true or false
 
 void setup() {
- 
   size(800,600);
-  strokeWeight(3);
-  stroke(black); 
-  background(white);
+  background(255);
+  strokeWeight(2);
+  stroke(0); 
   SelectedColor = red; 
   sliderY=55;
-  thickness = 0; 
+  thickness = 0;
   //stamp
   lazyegg = loadImage( "lazy-egg.png");
+  lazyeggOn = false;
 }
 
 void draw() {  
   fill(255);
+  
+  // toolbar 
   noStroke();
-  rect(0,0,800,600);
+  strokeWeight(1);
+  fill(100);
+  rect(0,0,800,120);
   strokeWeight(2);
-  
-  //if (mouseY<130) {
-  //background(white);
-  //}
-  //strokeWeight(2);
-  stroke(0);
-  line(0,120,800,120);
-  
+
   // buttons 
   //red
   tactile (60,35,20);
@@ -75,20 +73,24 @@ void draw() {
   // slider
   stroke(0);
   line (300,10,300,100);
-  fill(black);
+  fill(255);
   stroke(0);
   circle(300,sliderY,20);
   thickness = map(sliderY,10,100,0,10); 
   stroke(black);
-  strokeWeight(thickness);
- 
-  
-  // indicator 
+  strokeWeight(thickness);  
+  // indicator
+  stroke(0);
   fill(SelectedColor);
   rect(230,25,30,70); 
   
    // stamp
-  image(lazyegg, 360,-45,200,200);
+  tactile(360,0,110,110);
+  lazyeggOnOff();
+  strokeWeight(1);
+  rect(360,0,110,110);
+  image(lazyegg, 360,0,110,110);
+  
   
 } // End of draw ===============
 
@@ -103,14 +105,21 @@ void tactile (int x, int y, int r) {
 // the slider 
 void mouseDragged () {
   controlSlider();
-  
+
+  if (lazyeggOn == false){
   // drawing lines
- if (mouseY>125){ //control the space to draw
+  strokeWeight(5);
+  stroke(0);
+if (mouseY>125){ //control the space to draw
+stroke(SelectedColor);
+strokeWeight (thickness);
   line(pmouseX,pmouseY,mouseX,mouseY);
-  
+}
+  } else { 
+   // lazy egg drawing 
+   image (lazyegg,mouseX, mouseY, 110,110);
   }
 }
-
 void mouseReleased() { 
 
   // red button 
@@ -139,6 +148,30 @@ void mouseReleased() {
   }
   // slider
   controlSlider();
+  
+  // lazyegg button 
+  if ( mouseX > 360 && mouseX < 470 && mouseY > 0 && mouseY <110){
+    lazyeggOn = !lazyeggOn ; // ! = opposite 
+  }
+}
+  //lazyegg button tactile 
+void tactile(int x,int y, int w, int h){ 
+  if (mouseX> x&& mouseX < x+w && mouseY > y && mouseY < y+h) {
+    fill(255,255,0);
+  } else {
+    fill(255);
+  }
+}
+
+// lazyegg button 
+void lazyeggOnOff (){
+  if (lazyeggOn == true) {
+    stroke (255,0,0);
+    strokeWeight (5);
+  } else {
+    stroke (0);
+    strokeWeight (1);
+  }
 }
 
 // the slider
