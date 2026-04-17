@@ -146,6 +146,12 @@ void mouseReleased() {
   if (dist(180,85,mouseX,mouseY)<20){
     SelectedColor = purple;
   }
+  
+  // new button 
+  // if (mouseX > 10 && mouseX< 60 && mouseY > 490 && mouseY <515) {
+  //  background (white);
+ // }
+  
   // slider
   controlSlider();
   
