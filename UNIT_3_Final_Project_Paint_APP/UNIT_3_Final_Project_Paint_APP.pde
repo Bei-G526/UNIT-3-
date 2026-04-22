@@ -85,11 +85,38 @@ void draw() {
   rect(230,25,30,70); 
   
    // stamp
-  tactile(360,0,110,110);
+  tactile(360,5,110,110);
   lazyeggOnOff();
   strokeWeight(1);
-  rect(360,0,110,110);
-  image(lazyegg, 360,0,110,110);
+  rect(360,5,110,110);
+  image(lazyegg, 360,5,110,110);
+  
+  // new button 
+  strokeWeight (2); 
+  stroke(0);
+  fill(255);
+  tactileRect(500, 10, 50, 100);
+  rect(500,10,50,100);
+  fill(black);
+  text( "new" , 513, 65);
+  
+  // file save button 
+  strokeWeight(2);
+  stroke(0);
+  fill(255);
+  tactileRect(600,10,50,100);
+  rect(600,10,50,100);
+  fill(black);
+  text ( "save" , 613,65); 
+  
+  // load button 
+  strokeWeight(2);
+  stroke(0);
+  fill(255);
+  tactileRect(700,10,50,100);
+  rect(700,10,50,100);
+  fill(black);
+  text ("load", 713,65);
   
   
 } // End of draw ===============
@@ -101,6 +128,14 @@ void tactile (int x, int y, int r) {
     stroke(black);
   }
 } // end tactile ==============
+
+void tactileRect (int x, int y, int w, int h){
+  if (mouseX>x && mouseX<x+w && mouseY>y && mouseY<y+h){
+    stroke(white);
+  }else{
+    stroke(black);
+  }
+}
 
 // the slider 
 void mouseDragged () {
@@ -148,16 +183,47 @@ void mouseReleased() {
   }
   
   // new button 
-  // if (mouseX > 10 && mouseX< 60 && mouseY > 490 && mouseY <515) {
-  //  background (white);
- // }
+  if (mouseX >500  && mouseX< 550 && mouseY > 10 && mouseY <110) {
+    background (white);
+  }
+  
+  // save button 
+  if (mouseX>600 && mouseX<650 && mouseY>10 && mouseY< 110) {
+    selectOutput ( "Choose a name for your new image file" , "saveImage");
+  }
+  
+  //load buttom 
+  if (mouseX>700 && mouseX<750 && mouseY>10 && mouseY<110){
+    selectInput ("Pick an image to load", "openImage");
+  }
   
   // slider
   controlSlider();
   
   // lazyegg button 
-  if ( mouseX > 360 && mouseX < 470 && mouseY > 0 && mouseY <110){
+  if ( mouseX > 360 && mouseX < 470 && mouseY > 5 && mouseY <115){
     lazyeggOn = !lazyeggOn ; // ! = opposite 
+  }
+}
+
+// save image 
+void saveImage (File f) {
+  if (f!=null) {
+  PImage canvas = get (71,1, width-71,height-1);
+  canvas.save(f.getAbsolutePath());
+  }
+}
+
+// load image 
+void openImage(File f) {
+  if (f!=null){
+    //KLUDGE 
+    int n=0;
+    while (n<300) {
+      PImage pic = loadImage (f.getPath());
+      image(pic,0,0);
+      n=n+1; 
+    }
   }
 }
   //lazyegg button tactile 
