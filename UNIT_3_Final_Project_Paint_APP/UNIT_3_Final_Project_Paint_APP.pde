@@ -11,6 +11,8 @@ color black = #050505;
 color SelectedColor;
 float sliderY;
 float thickness;
+float lazyeggsize1 =60 ;
+float lazyeggsize2 = 60 ;
 
 // Stamp
 PImage lazyegg, lazyegg2;
@@ -79,8 +81,13 @@ void draw() {
   stroke(0);
   circle(300, sliderY, 20);
   thickness = map(sliderY, 10, 100, 0, 10);
+ 
+  lazyeggsize1 = map(sliderY,10,100,20,150);
+  lazyeggsize2 = map(sliderY,10,100,20,150);
+  
   stroke(black);
   strokeWeight(thickness);
+  
   // indicator
   stroke(0);
   fill(SelectedColor);
@@ -146,7 +153,7 @@ void tactileRect (int x, int y, int w, int h) {
 void mouseDragged () {
   controlSlider();
 
-  if (lazyeggOn1 == false) {
+  if (lazyeggOn1 == false && lazyeggOn2 == false) {
     // drawing lines
     strokeWeight(5);
     stroke(0);
@@ -155,27 +162,34 @@ void mouseDragged () {
       strokeWeight (thickness);
       line(pmouseX, pmouseY, mouseX, mouseY);
     }
-  } else {
+  } // else {
     // lazy egg drawing
-    image (lazyegg, mouseX, mouseY, 110, 110);
+    //image (lazyegg, mouseX, mouseY, 110, 110);
    
+  //}
+  if (lazyeggOn1 == true) {
+    if (mouseY>125){
+      image(lazyegg, mouseX, mouseY, lazyeggsize1, lazyeggsize1);
+    }
   }
-  if (lazyeggOn2 == false) {
+  if (lazyeggOn2 == true){
+      if (mouseY>125){
+      image(lazyegg2, mouseX, mouseY, lazyeggsize2, lazyeggsize2);
+    }
+  }
   
    // // drawing lines
-    strokeWeight(5);
-    stroke(0);
-    if (mouseY>125) { //control the space to draw
-      stroke(SelectedColor);
-      strokeWeight (thickness);
-      line(pmouseX, pmouseY, mouseX, mouseY);
-    }
-  } else {
+    //strokeWeight(5);
+    //stroke(0);
+    //if (mouseY>125) { //control the space to draw
+      //stroke(SelectedColor);
+      //strokeWeight (thickness);
+      //line(pmouseX, pmouseY, mouseX, mouseY);
+   // }
+  }// else {
  //   // lazy egg drawing
-   image(lazyegg2, mouseX, mouseY, 110, 110);
+ //  image(lazyegg2, mouseX, mouseY, 110, 110);
   
- }
-}
 void mouseReleased() {
 
   // red button
@@ -224,16 +238,22 @@ void mouseReleased() {
   // lazyegg button
   if ( mouseX > 360 && mouseX < 470 && mouseY > 5 && mouseY <115) {
     lazyeggOn1 = !lazyeggOn1 ; // ! = opposite
+    if(lazyeggOn1 == true){
+      lazyeggOn2 = false;
+    }
   }
   if(mouseX>500 && mouseX<610 && mouseY>5 && mouseY<115){
   lazyeggOn2 = !lazyeggOn2;
-}
+  if(lazyeggOn2 == true){
+      lazyeggOn1 = false;
+  }
+  }
 }
 
 // save image
 void saveImage (File f) {
   if (f!=null) {
-    PImage canvas = get (71, 1, width-71, height-1);
+    PImage canvas = get (0, 120, width, height-120);
     canvas.save(f.getAbsolutePath());
   }
 }
@@ -245,7 +265,7 @@ void openImage(File f) {
     int n=0;
     while (n<300) {
       PImage pic = loadImage (f.getPath());
-      image(pic, 0, 0);
+      image(pic, 0, 120);
       n=n+1;
     }
   }
